@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { getAllVolunteerPosts } from '../../services/volunteerPostsService'
 
 class VolunteerTable extends Component {
   state = {
@@ -6,34 +7,10 @@ class VolunteerTable extends Component {
   }
   
   async componentDidMount() {
-    const volunteerPosts = [
-      {
-        id: 1,
-        Title: "First Volunteer",
-        Organization: "Org 1",
-        Description: "This is the description for the volunteer post",
-        Qualifications: "Must be a genius",
-        Location: "Vancouver"
-      },
-      {
-        id: 2,
-        Title: "Second Volunteer",
-        Organization: "Org 2",
-        Description: "This is the description for the volunteer post second",
-        Qualifications: "Must be a genius second",
-        Location: "Vancouver second"
-      },
-      {
-        id: 3,
-        Title: "Third Volunteer",
-        Organization: "Org 2",
-        Description: "This is the description for the volunteer post third",
-        Qualifications: "Must be a genius third",
-        Location: "Vancouver third"
-      }
-    ]
+    const res = await getAllVolunteerPosts();
+    const volunteerPosts = res.data.body;
 
-    this.setState({ volunteerPosts});
+    this.setState({ volunteerPosts });
   }
   
   render() {
