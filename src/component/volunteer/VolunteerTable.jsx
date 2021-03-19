@@ -10,23 +10,26 @@ class VolunteerTable extends Component {
       {
         id: 1,
         Title: "First Volunteer",
+        Organization: "Org 1",
         Description: "This is the description for the volunteer post",
         Qualifications: "Must be a genius",
-        Locaion: "Vancouver"
+        Location: "Vancouver"
       },
       {
         id: 2,
         Title: "Second Volunteer",
+        Organization: "Org 2",
         Description: "This is the description for the volunteer post second",
         Qualifications: "Must be a genius second",
-        Locaion: "Vancouver second"
+        Location: "Vancouver second"
       },
       {
         id: 3,
         Title: "Third Volunteer",
+        Organization: "Org 2",
         Description: "This is the description for the volunteer post third",
         Qualifications: "Must be a genius third",
-        Locaion: "Vancouver third"
+        Location: "Vancouver third"
       }
     ]
 
@@ -40,6 +43,7 @@ class VolunteerTable extends Component {
           <thead>
             <tr>
               <th>Title</th>
+              <th>Organization</th>
               <th>Description</th>
               <th>Qualifications</th>
               <th>Location</th>
@@ -49,9 +53,10 @@ class VolunteerTable extends Component {
             {this.state.volunteerPosts.map(volunteerPost => (
               <tr key={volunteerPost.id}>
                 <td>{volunteerPost.Title}</td>
+                <td>{volunteerPost.Organization}</td>
                 <td>{volunteerPost.Description}</td>
                 <td>{volunteerPost.Qualifications}</td>
-                <td>{volunteerPost.Locaion}</td>
+                <td>{volunteerPost.Location}</td>
               </tr>
             ))}
           </tbody>
