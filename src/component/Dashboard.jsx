@@ -1,9 +1,16 @@
 import React, { Component } from 'react';
+import VolunteerTable from "./volunteer/VolunteerTable";
 
 class HomePage extends Component {
-    state = {  }
+    state = {}
+
+
     render() { 
-        return <h1>Home Page here !</h1>
+        return (
+          <React.Fragment>
+            <VolunteerTable/>
+          </React.Fragment>
+        );
     }
 }
  
