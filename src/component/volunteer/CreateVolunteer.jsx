@@ -31,6 +31,14 @@ class CreateVolunteer extends Component {
     }
     return classes
   }
+
+  renderMaxLength (keyName) {
+    let maxStringLength = '255';
+    if (keyName === 'Description' || keyName === 'Qualifications') {
+      maxStringLength = '1250';
+    }
+    return maxStringLength;
+  }
   
   render() { 
     const volunteerPost = this.state.volunteerPost;
@@ -41,19 +49,13 @@ class CreateVolunteer extends Component {
             {Object.keys(volunteerPost).map((keyName, i) => (
             <div key={i} className='inputDiv'>
                 <label>{keyName}</label>
-                {/* <input
-                  className={this.renderInputClass(keyName)}
-                  name={keyName}
-                  type='text'
-                  value={volunteerPost[keyName]}
-                  onChange={this.handleChange}
-                /> */}
                 <textarea
                   className={this.renderInputClass(keyName)}
                   name={keyName}
                   type='text'
                   value={volunteerPost[keyName]}
                   onChange={this.handleChange}
+                  maxLength={this.renderMaxLength(keyName)}
                 >
                 </textarea>
             </div>
