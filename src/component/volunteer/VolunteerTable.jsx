@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { getAllVolunteerPosts } from '../../services/volunteerPostsService'
+import { getAllVolunteerPosts } from '../../services/volunteerPostsService';
+import { Link } from 'react-router-dom';
 
 class VolunteerTable extends Component {
   state = {
@@ -16,6 +17,9 @@ class VolunteerTable extends Component {
   render() {
     return (
       <React.Fragment>
+        <Link className='btn btn-primary btn-large m-3' to='/createvolunteer'>
+          Create Volunteer
+        </Link>
         <table className="table table-striped table-dark">
           <thead>
             <tr>
