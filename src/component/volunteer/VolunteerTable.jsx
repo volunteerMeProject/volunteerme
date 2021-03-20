@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { getAllVolunteerPosts } from '../../services/volunteerPostsService'
 
 class VolunteerTable extends Component {
   state = {
@@ -6,31 +7,10 @@ class VolunteerTable extends Component {
   }
   
   async componentDidMount() {
-    const volunteerPosts = [
-      {
-        id: 1,
-        Title: "First Volunteer",
-        Description: "This is the description for the volunteer post",
-        Qualifications: "Must be a genius",
-        Locaion: "Vancouver"
-      },
-      {
-        id: 2,
-        Title: "Second Volunteer",
-        Description: "This is the description for the volunteer post second",
-        Qualifications: "Must be a genius second",
-        Locaion: "Vancouver second"
-      },
-      {
-        id: 3,
-        Title: "Third Volunteer",
-        Description: "This is the description for the volunteer post third",
-        Qualifications: "Must be a genius third",
-        Locaion: "Vancouver third"
-      }
-    ]
+    const res = await getAllVolunteerPosts();
+    const volunteerPosts = res.data.body;
 
-    this.setState({ volunteerPosts});
+    this.setState({ volunteerPosts });
   }
   
   render() {
@@ -40,6 +20,7 @@ class VolunteerTable extends Component {
           <thead>
             <tr>
               <th>Title</th>
+              <th>Organization</th>
               <th>Description</th>
               <th>Qualifications</th>
               <th>Location</th>
@@ -49,9 +30,10 @@ class VolunteerTable extends Component {
             {this.state.volunteerPosts.map(volunteerPost => (
               <tr key={volunteerPost.id}>
                 <td>{volunteerPost.Title}</td>
+                <td>{volunteerPost.Organization}</td>
                 <td>{volunteerPost.Description}</td>
                 <td>{volunteerPost.Qualifications}</td>
-                <td>{volunteerPost.Locaion}</td>
+                <td>{volunteerPost.Location}</td>
               </tr>
             ))}
           </tbody>
