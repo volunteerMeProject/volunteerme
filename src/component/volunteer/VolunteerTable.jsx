@@ -40,7 +40,7 @@ class VolunteerTable extends Component {
                 <td>{volunteerPost.Qualifications}</td>
                 <td>{volunteerPost.Location}</td>
                 <td>
-                  <Link className="btn-info btn-sm" to={`/UpdatePost/`} 
+                  <Link className="btn-info btn-sm" to={`/UpdatePost/${volunteerPost.id}`} 
                   >
                     Update
                   </Link>

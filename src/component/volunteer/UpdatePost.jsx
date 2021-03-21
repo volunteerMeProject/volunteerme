@@ -1,4 +1,5 @@
 import React from "react";
+import { getVolunteerPost, updatePost } from "../../services/volunteerPostsService"
 
 class UpdatePost extends React.Component {
   constructor(props) {
@@ -8,65 +9,79 @@ class UpdatePost extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
 
     this.state = {
-      postID: "",
-      organization: "",
-      title: "",
-      description: "",
-      qualifications: "",
-      eventAddress: ""
-    };
+      volunteerPost: {
+        id: '',
+        Title: '',
+        Organization: '',
+        Description: '',
+        Qualifications: '',
+        Location: ''
+      },
+      errors: {}
+    }
   }
 
-  handleSubmit(event) {
-    // Validate
-
-    // Send to back-end
-
+  async handleSubmit(event) {
+    
     event.preventDefault();
+
+    const { status } = await updatePost(this.state.volunteerPost);
+    if (status === 200) {
+      alert('Post Updated');
+      console.log("success");
+    }
+    if (status !== 200) {
+      alert('Post not updated.\nPlease try again later.'); 
+      console.log("unsuccess");
+    }
+    
   }
 
   handleChange(event) {
     // Set state
-    this.setState({ [event.target.name]: event.target.value });
+    var post = {...this.state.volunteerPost};
+    post[event.target.name] = event.target.value;
+    this.setState({volunteerPost: post});
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     // Get posting from db through axiom
+    const result = await getVolunteerPost(this.props.match.params.id);
+    const post = result.data.Item;
+    
+    this.setState({volunteerPost: post});
+    console.log(this.state.volunteerPost);
+    
   }
 
   render() {
     return (
       <div className="container border rounded p-5 m-5 mx-auto">
         <form onSubmit={this.handleSubmit} className="">
-          <div className="row pl-2">
-            <label className="fw-light text-muted">
-              Post #{this.props.postID}
-            </label>
-          </div>
           <div className="row p-2">
             <label className="h3 form-label">
               Title:
             </label>
             <input
-              className="form-control mt-2" name="title" type="text" value={this.props.title} onChange={this.handleChange} />
+              className="form-control mt-2" required name="Title" type="text" defaultValue={this.state.volunteerPost.Title} onChange={this.handleChange} />
           </div>
           <div className="row p-2">
             <label className="h3 form-label">
               Description:
             </label>
-            <textarea className="form-control mt-2" rows="4" name="description" type="text" value={this.props.description} />
+            <textarea className="form-control mt-2" required rows="4" name="Description" type="text" defaultValue={this.state.volunteerPost.Description} onChange={this.handleChange} />
           </div>
           <div className="row p-2">
             <label className="h3 form-label">
               Qualifications:
             </label>
-            <input className="form-control mt-2" name="qualification" type="text" value={this.props.qualifications} /> 
+            <input className="form-control mt-2" required name="Qualification" type="text" defaultValue={this.state.volunteerPost.Qualifications} onChange={this.handleChange} /> 
           </div>
           <div className="row p-2">
             <label className="h3 form-label">
               Location:
             </label>
-            <input className="form-control mt-2" name="eventAddress" type="text" value={this.props.eventAddress} />
+            <input className="form-control mt-2" required name="Location" type="text" defaultValue={this.state.volunteerPost.Location} onChange={this.handleChange} />
           </div>
           <div className="row p-2">
             <button type="submit" className="btn btn-primary">Update</button>

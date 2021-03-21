@@ -19,7 +19,7 @@ function App() {
         <Route exact path="/createvolunteer" component={CreateVolunteer}/>
         {/* <Route path="/signup" component={SignUp}/> */}
         {/* <Route path="/dashboard" component={Dashboard}/> */}
-        <Route path='/UpdatePost/' component={UpdatePost}/>
+        <Route path='/UpdatePost/:id' component={UpdatePost}/>
       </Router>
   );
 }
