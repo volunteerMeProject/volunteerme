@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 
 class VolunteerTable extends Component {
   state = {
@@ -12,21 +13,21 @@ class VolunteerTable extends Component {
         Title: "First Volunteer",
         Description: "This is the description for the volunteer post",
         Qualifications: "Must be a genius",
-        Locaion: "Vancouver"
+        Location: "Vancouver"
       },
       {
         id: 2,
         Title: "Second Volunteer",
         Description: "This is the description for the volunteer post second",
         Qualifications: "Must be a genius second",
-        Locaion: "Vancouver second"
+        Location: "Vancouver second"
       },
       {
         id: 3,
         Title: "Third Volunteer",
         Description: "This is the description for the volunteer post third",
         Qualifications: "Must be a genius third",
-        Locaion: "Vancouver third"
+        Location: "Vancouver third"
       }
     ]
 
@@ -51,7 +52,13 @@ class VolunteerTable extends Component {
                 <td>{volunteerPost.Title}</td>
                 <td>{volunteerPost.Description}</td>
                 <td>{volunteerPost.Qualifications}</td>
-                <td>{volunteerPost.Locaion}</td>
+                <td>{volunteerPost.Location}</td>
+                <td>
+                  <Link className="btn-info btn-sm" to={`/UpdatePost/`} 
+                  >
+                    Update
+                  </Link>
+                </td>
               </tr>
             ))}
           </tbody>
