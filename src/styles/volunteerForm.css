@@ -15,17 +15,26 @@
   width: 30%;
   height: 30px;
   margin-bottom: 3%;
+  border-radius: 10px;
 }
 
 .largeInputField {
   width: 30%;
   height: 100px;
   margin-bottom: 3%;
+  border-radius: 10px;
 }
 
 .volunteerSubmitButton {
   width: 30%;
   margin-bottom: 1%;
+}
+
+.formError {
+  background-color: red;
+  color: white;
+  width: 30%;
+  border-radius: 10px;
 }
 
 

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import '../../styles/volunteerForm.css';
-import uuid from 'react-uuid'
+import uuid from 'react-uuid';
+import Joi from "joi-browser";
 import { postVolunteerPost } from '../../services/volunteerPostsService';
 
 class CreateVolunteer extends Component {
@@ -11,24 +12,59 @@ class CreateVolunteer extends Component {
       Description: '',
       Qualifications: '',
       Location: ''
-    }
+    },
+    errors: {}
   }
+
+  schema = {
+    Title: Joi.string().required(),
+    Organization: Joi.string().required(),
+    Description: Joi.string().required(),
+    Qualifications: Joi.string().required(),
+    Location: Joi.string().required()
+  }
+
+  validateForm = () => {
+    const { error } = Joi.validate(this.state.volunteerPost, this.schema, { abortEarly: false});
+
+    if (!error) return {};
+
+    const errors = {};
+
+    for (let err of error.details) {
+      errors[err.path[0]] = err.message; 
+    }
+
+    return errors;
+  }
+
 
   handleSubmit = async e => {
     e.preventDefault();
+
+    const errors = this.validateForm();
+    this.setState({ errors });
+
+    if (Object.keys(errors).length !== 0) return;
+
     const params = {...this.state.volunteerPost};
     params.id = uuid();
 
-    const status = await postVolunteerPost(params);
-
+    const { status } = await postVolunteerPost(params);
     
-    console.log(status);
+    if (status === 200)
+    {
+      alert('Volunteer Post Saved');
+      this.props.history.push('/');
+    }
+    if (status !== 200) alert('Volunteer Post NOT Saved. \n Please try again later');
   }
 
   handleChange = e => {
     const volunteerPost = {...this.state.volunteerPost};
     volunteerPost[e.currentTarget.name] = e.currentTarget.value;
-    this.setState({ volunteerPost });
+    const errors = this.validateForm();
+    this.setState({ volunteerPost, errors });
   }
 
   renderInputClass (keyName) {
@@ -46,6 +82,12 @@ class CreateVolunteer extends Component {
     }
     return maxStringLength;
   }
+
+  renderError (keyName) {
+    if (this.state.errors[keyName]) {
+      return <p className='formError'>{this.state.errors[keyName]}</p>;
+    }
+  }
   
   render() { 
     const volunteerPost = this.state.volunteerPost;
@@ -56,6 +98,7 @@ class CreateVolunteer extends Component {
             {Object.keys(volunteerPost).map((keyName, i) => (
             <div key={i} className='inputDiv'>
                 <label>{keyName}</label>
+                {this.renderError(keyName)}
                 <textarea
                   className={this.renderInputClass(keyName)}
                   name={keyName}
