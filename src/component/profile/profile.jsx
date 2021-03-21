@@ -14,7 +14,7 @@ class profile extends Component {
 
     fetchProducts = async() =>{
         try{
-            const res = await axios.get(`${config.api.invokeUrl}/user/1`)
+            const res = await axios.get(`${config.invokeUrl}/user/1`)
             console.log(res);
             this.setState({
                 name:res.data.Item.name,
