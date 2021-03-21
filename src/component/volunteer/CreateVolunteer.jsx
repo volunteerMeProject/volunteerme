@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import '../../styles/volunteerForm.css';
-import { getAllVolunteerPosts } from '../../services/volunteerPostsService';
+import uuid from 'react-uuid'
+import { postVolunteerPost } from '../../services/volunteerPostsService';
 
 class CreateVolunteer extends Component {
   state = {
@@ -13,9 +14,15 @@ class CreateVolunteer extends Component {
     }
   }
 
-  handleSubmit = e => {
+  handleSubmit = async e => {
     e.preventDefault();
-    console.log(this.state.volunteerPost);
+    const params = {...this.state.volunteerPost};
+    params.id = uuid();
+
+    const status = await postVolunteerPost(params);
+
+    
+    console.log(status);
   }
 
   handleChange = e => {
