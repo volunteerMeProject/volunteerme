@@ -1,22 +1,22 @@
-import { getAllVolunteerPostsAPI } from '../config.json';
+import { volunteerPostApiUrl } from '../config';
 import axios from 'axios';
 
 export function getAllVolunteerPosts() {
-  return axios.get(getAllVolunteerPostsAPI);
+  return axios.get(volunteerPostApiUrl);
 }
 
 export function postVolunteerPost(params) {
-  return axios.post(getAllVolunteerPostsAPI, params);
+  return axios.post(volunteerPostApiUrl, params);
 }
 
 export function getVolunteerPost(id) {
-  return axios.get(`${getAllVolunteerPostsAPI}/${id}`)
+  return axios.get(`${volunteerPostApiUrl}/${id}`)
 }
 
 export function updatePost(params) {
-  return axios.put(getAllVolunteerPostsAPI, params)
+  return axios.put(volunteerPostApiUrl, params)
 }
 
 export function deleteVolunteerPost(id) {
-  return axios.delete(`${getAllVolunteerPostsAPI}/${id}`)
+  return axios.delete(`${volunteerPostApiUrl}/${id}`)
 }
