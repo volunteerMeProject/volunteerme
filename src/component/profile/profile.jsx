@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import '../../styles/profile.css'
 import axios from "axios";
-import {getAllVolunteerPostsAPI} from "../../config"
+import {volunteerPostApiUrl} from "../../config"
 
 
 class profile extends Component {
@@ -14,7 +14,7 @@ class profile extends Component {
 
     fetchProducts = async() =>{
         try{
-            const res = await axios.get(`${getAllVolunteerPostsAPI}/1`)
+            const res = await axios.get(`${volunteerPostApiUrl}/1`)
             console.log(res);
             this.setState({
                 name:res.data.Item.name,

@@ -5,6 +5,7 @@ import './App.css';
 import Dashboard from './component/Dashboard';
 import CreateVolunteer from './component/volunteer/CreateVolunteer'
 import {BrowserRouter as Router, Route} from 'react-router-dom';
+import UpdatePost from './component/volunteer/UpdatePost';
 import profile from './component/profile/profile';
 
  
@@ -18,6 +19,7 @@ function App() {
         <Route exact path="/createvolunteer" component={CreateVolunteer}/>
         {/* <Route path="/signup" component={SignUp}/> */}
         {/* <Route path="/dashboard" component={Dashboard}/> */}
+        <Route path='/UpdatePost/:id' component={UpdatePost}/>
       </Router>
   );
 }

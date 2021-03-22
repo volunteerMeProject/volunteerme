@@ -1,10 +1,18 @@
-import { getAllVolunteerPostsAPI } from '../config';
+import { volunteerPostApiUrl } from '../config';
 import axios from 'axios';
 
 export function getAllVolunteerPosts() {
-  return axios.get(getAllVolunteerPostsAPI);
+  return axios.get(volunteerPostApiUrl);
 }
 
 export function postVolunteerPost(params) {
-  return axios.post(getAllVolunteerPostsAPI, params);
+  return axios.post(volunteerPostApiUrl, params);
+}
+
+export function getVolunteerPost(id) {
+  return axios.get(`${volunteerPostApiUrl}/${id}`)
+}
+
+export function updatePost(params) {
+  return axios.put(volunteerPostApiUrl, params)
 }
