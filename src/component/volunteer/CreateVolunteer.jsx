@@ -52,12 +52,12 @@ class CreateVolunteer extends Component {
 
     const { status } = await postVolunteerPost(params);
     
-    if (status === 200)
+    if (status === 201)
     {
       alert('Volunteer Post Saved');
       this.props.history.push('/');
     }
-    if (status !== 200) alert('Volunteer Post NOT Saved. \n Please try again later');
+    if (status !== 201) alert('Volunteer Post NOT Saved. \n Please try again later');
   }
 
   handleChange = e => {
