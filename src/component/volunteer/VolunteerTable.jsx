@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { getAllVolunteerPosts } from '../../services/volunteerPostsService';
+import { deleteVolunteerPost } from '../../services/volunteerPostsService';
 import { Link } from 'react-router-dom';
 import SearchBar from './SearchBar';
 
@@ -10,7 +11,19 @@ class VolunteerTable extends Component {
     volunteerPostsDefault: [],
   }
 
-  
+  async handleDelete(e) {
+    const id = e.target.value;
+    const { status } = await deleteVolunteerPost(id);
+
+    if (status !== 204) alert('Volunteer Post NOT Deleted. \n Please try again later');
+
+    let filteredVolunteerPosts = this.state.volunteerPosts.filter(volunteerPost => volunteerPost.id !== e.target.value);
+    console.log(e.target.value);
+    console.log(filteredVolunteerPosts);
+    this.setState({ filteredVolunteerPosts });
+    this.setState({ volunteerPosts: filteredVolunteerPosts });
+  }
+
   async componentDidMount() {
     const res = await getAllVolunteerPosts();
     let volunteerPostsDefault = [];
@@ -30,7 +43,7 @@ class VolunteerTable extends Component {
     this.setState({ input });
     this.setState({volunteerPosts: filtered});
   }
-  
+
   render() {
     return (
       <React.Fragment>
@@ -60,10 +73,15 @@ class VolunteerTable extends Component {
                 <td>{volunteerPost.Qualifications}</td>
                 <td>{volunteerPost.Location}</td>
                 <td>
-                  <Link className="btn-info btn-sm" to={`/UpdatePost/${volunteerPost.id}`} 
+
+                  <Link className="btn-info btn-sm" to={`/UpdatePost/${volunteerPost.id}`}
                   >
                     Update
                   </Link>
+                  <button value={volunteerPost.id} onClick={this.handleDelete.bind(this)} className="btn-info btn-sm"
+                  >
+                    Delete
+                  </button>
                 </td>
               </tr>
             ))}
@@ -73,5 +91,5 @@ class VolunteerTable extends Component {
     );
   }
 }
- 
+
 export default VolunteerTable;
