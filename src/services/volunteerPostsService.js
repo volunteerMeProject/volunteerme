@@ -16,3 +16,7 @@ export function getVolunteerPost(id) {
 export function updatePost(params) {
   return axios.put(getAllVolunteerPostsAPI, params)
 }
+
+export function deleteVolunteerPost(id) {
+  return axios.delete(`${getAllVolunteerPostsAPI}/${id}`)
+}
