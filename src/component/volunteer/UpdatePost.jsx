@@ -29,6 +29,7 @@ class UpdatePost extends React.Component {
     if (status === 200) {
       alert('Post Updated');
       console.log("success");
+      this.props.history.push('/');
     }
     if (status !== 200) {
       alert('Post not updated.\nPlease try again later.'); 
