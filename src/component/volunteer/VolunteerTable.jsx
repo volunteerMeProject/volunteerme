@@ -48,7 +48,7 @@ class VolunteerTable extends Component {
     return (
       <React.Fragment>
         <Link className='btn btn-primary btn-large m-3' to='/createvolunteer'>
-          Create Volunteer
+          Create Volunteer Post
         </Link>
         <SearchBar
           input={this.state.input}
