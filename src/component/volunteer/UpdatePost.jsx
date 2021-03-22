@@ -60,26 +60,26 @@ class UpdatePost extends React.Component {
       <div className="container border rounded p-5 m-5 mx-auto">
         <form onSubmit={this.handleSubmit} className="">
           <div className="row p-2">
-            <label className="h3 form-label">
+            <label className="h3 form-label" style={{color:"green"}}>
               Title:
             </label>
             <input
               className="form-control mt-2" required name="Title" type="text" defaultValue={this.state.volunteerPost.Title} onChange={this.handleChange} />
           </div>
           <div className="row p-2">
-            <label className="h3 form-label">
+            <label className="h3 form-label" style={{color:"green"}}>
               Description:
             </label>
             <textarea className="form-control mt-2" required rows="4" name="Description" type="text" defaultValue={this.state.volunteerPost.Description} onChange={this.handleChange} />
           </div>
           <div className="row p-2">
-            <label className="h3 form-label">
+            <label className="h3 form-label" style={{color:"green"}}>
               Qualifications:
             </label>
             <input className="form-control mt-2" required name="Qualification" type="text" defaultValue={this.state.volunteerPost.Qualifications} onChange={this.handleChange} /> 
           </div>
           <div className="row p-2">
-            <label className="h3 form-label">
+            <label className="h3 form-label" style={{color:"green"}}>
               Location:
             </label>
             <input className="form-control mt-2" required name="Location" type="text" defaultValue={this.state.volunteerPost.Location} onChange={this.handleChange} />
