@@ -1,4 +1,4 @@
-import { getAllVolunteerPostsAPI, getOnePost } from '../config.json';
+import { getAllVolunteerPostsAPI } from '../config.json';
 import axios from 'axios';
 
 export function getAllVolunteerPosts() {
@@ -10,7 +10,7 @@ export function postVolunteerPost(params) {
 }
 
 export function getVolunteerPost(id) {
-  return axios.get(`${getOnePost}/${id}`)
+  return axios.get(`${getAllVolunteerPosts}/${id}`)
 }
 
 export function updatePost(params) {
