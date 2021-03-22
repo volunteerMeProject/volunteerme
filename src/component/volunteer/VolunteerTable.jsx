@@ -13,7 +13,10 @@ class VolunteerTable extends Component {
   
   async componentDidMount() {
     const res = await getAllVolunteerPosts();
-    const volunteerPostsDefault = res.data.body;
+    let volunteerPostsDefault = [];
+    if (res) {
+      volunteerPostsDefault = res.data.body;
+    }
     volunteerPostsDefault.sort((a, b) => (a.Time > b.Time) ? 1 : -1);
 
     this.setState({ volunteerPostsDefault });
