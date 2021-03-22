@@ -1,4 +1,4 @@
-import { getAllVolunteerPostsAPI } from '../config.json';
+import { getAllVolunteerPostsAPI } from '../config';
 import axios from 'axios';
 
 export function getAllVolunteerPosts() {

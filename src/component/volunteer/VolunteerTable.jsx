@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { getAllVolunteerPosts } from '../../services/volunteerPostsService';
 import { Link } from 'react-router-dom';
 import SearchBar from './SearchBar';
+import { getAllVolunteerPostsAPI } from '../../config';
 
 class VolunteerTable extends Component {
   state = {
@@ -12,6 +13,7 @@ class VolunteerTable extends Component {
 
   
   async componentDidMount() {
+    console.log(getAllVolunteerPostsAPI);
     const res = await getAllVolunteerPosts();
     const volunteerPostsDefault = res.data.body;
     volunteerPostsDefault.sort((a, b) => (a.Time > b.Time) ? 1 : -1);
