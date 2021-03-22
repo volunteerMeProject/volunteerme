@@ -10,7 +10,7 @@ export function postVolunteerPost(params) {
 }
 
 export function getVolunteerPost(id) {
-  return axios.get(`${getAllVolunteerPosts}/${id}`)
+  return axios.get(`${getAllVolunteerPostsAPI}/${id}`)
 }
 
 export function updatePost(params) {
