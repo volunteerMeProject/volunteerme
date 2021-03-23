@@ -94,10 +94,10 @@ class CreateVolunteer extends Component {
     return (
       <React.Fragment>
         <form onSubmit={this.handleSubmit} className='volunteerForm'>
-          <h1>Create Volunteer</h1>
+          <h1 style={{color: "green"}}>Create Volunteer</h1>
             {Object.keys(volunteerPost).map((keyName, i) => (
             <div key={i} className='inputDiv'>
-                <label>{keyName}</label>
+                <label style={{color: "green"}}>{keyName}</label>
                 {this.renderError(keyName)}
                 <textarea
                   className={this.renderInputClass(keyName)}
@@ -110,7 +110,7 @@ class CreateVolunteer extends Component {
                 </textarea>
             </div>
             ))}
-          <button className="btn btn-dark volunteerSubmitButton">
+          <button className="btn btn-info volunteerSubmitButton">
             Submit
           </button>
         </form>
