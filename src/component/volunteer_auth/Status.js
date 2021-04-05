@@ -13,6 +13,9 @@ export default () => {
                 console.log('Session:', session);
                 setStatus(true);
             })
+            .catch(err => {
+                console.log('err:', err);
+            })
     }, []);
 
     return (
