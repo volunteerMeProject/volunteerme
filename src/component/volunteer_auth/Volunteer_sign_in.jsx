@@ -1,62 +1,48 @@
-import React, {useState, useContext} from 'react';
-import {AccountContext} from './Accounts';
-import CognitoUserPool from '../../UserPool';
-import { CognitoUser, AuthenticationDetails } from 'amazon-cognito-identity-js';
-import { Link } from 'react-router-dom';
-import {BrowserRouter as Route} from 'react-router-dom';
-import Status from './Status';
+import React, { useState, useContext } from 'react';
+import { AccountContext } from './Accounts';
+import '../../styles/Login.css'
+import Pool from './UserPool'
 
 export default () => {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
-    const {authenticate} = useContext(AccountContext);
+  const { authenticate } = useContext(AccountContext);
 
-    const onSubmit = (event) => {
-        event.preventDefault();
-        
-        authenticate(email, password)
-            .then(data => {
-                console.log('logged in', data);
+  const onSubmit = event => {
+    event.preventDefault();
+
+    authenticate(email, password)
+      .then(data => {
+        console.log('Logged in!', data);
+        alert("" + email + " is now logged in!");
+        window.location.href = "/";
+      })
+      .catch(err => {
+        console.error('Failed to login!', err);
+      })
+  };
+
+  return (
+    <section className="auth-wrapper">
+        <section className="auth-inner">
+            <section className="container">
+                <form onSubmit={onSubmit} method="POST">
+                    <h3>Volunteer login</h3>
+                    <section className="form-group">
+                        <label>Email : </label>
+                        <input onChange={event => setEmail(event.target.value)} className="form-control" type='email' placeholder='example@email.com' />
+                    </section>
+                    <section className="form-group">
+                        <label>Password : </label>
+                        <input onChange={event => setPassword(event.target.value)} className="form-control" type='password' placeholder='*****' />
+                    </section>
+
+                    <button className="btn btn-primary btn-block" type='submit'>LOGIN</button>
+                </form>
                 
-            })
-            .catch(err => {
-                console.error('failed to log in', err);
-            })
-    }
-    
-    const onChangeEmail = (event) => {
-        setEmail(event.target.value);
-    }
-
-    const onChangePassword = (event) => {
-        setPassword(event.target.value);
-    }
-
-    return (
-        <div className="container border rounded p-5 m-5 mx-auto">
-            <Status/>
-            <form onSubmit={event => onSubmit(event)} className="">
-                <legend className="h1 row p-2" style={{color:"green"}}>Volunteer Login</legend>
-                <div className="row p-2">
-                <label className="h3 form-label" style={{color:"green"}}>
-                    Email: 
-                </label>
-                <input
-                    className="form-control mt-2" required name="Email" type="text" onChange={event => onChangeEmail(event)} value={email} />
-                </div>
-                <div className="row p-2">
-                <label className="h3 form-label" style={{color:"green"}}>
-                    Password:
-                </label>
-                <input
-                    className="form-control mt-2" required name="Password" type="password" onChange={event => onChangePassword(event)} value={password} />
-                </div>
-                <div className="row p-2">
-                <button type="submit" className="btn btn-primary">Login</button>
-                </div>
-            </form>
-            <Link to={{pathname:"/"}}>Back </Link>
-        </div>
-    );
-}
+            </section>
+        </section>
+    </section>
+  );
+};

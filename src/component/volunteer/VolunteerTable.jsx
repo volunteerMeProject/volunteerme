@@ -1,8 +1,11 @@
-import React, { Component } from 'react';
+import React, { Component, useContext } from 'react';
 import { getAllVolunteerPosts } from '../../services/volunteerPostsService';
 import { deleteVolunteerPost } from '../../services/volunteerPostsService';
 import { Link } from 'react-router-dom';
 import SearchBar from './SearchBar';
+import Pool from '../volunteer_auth/UserPool';
+import {AccountContext} from '../volunteer_auth/Accounts';
+
 
 class VolunteerTable extends Component {
   state = {
@@ -41,6 +44,22 @@ class VolunteerTable extends Component {
     this.setState({volunteerPosts: filtered});
   }
 
+  checkVolunteerSignIn() {
+    const user = Pool.getCurrentUser();
+    if (user) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+  static contextType = AccountContext;
+  logoutUser() {
+    var test = this.context;
+    test.logout();
+    alert('logged out');
+    
+  }
+
   render() {
     return (
       <React.Fragment>
@@ -54,6 +73,7 @@ class VolunteerTable extends Component {
           input={this.state.input}
           onChange={this.updateInput.bind(this)}
         />
+        {// Put logout button here based on if user is logged in}
         <table className="table table-striped table-dark">
           <thead>
             <tr>
