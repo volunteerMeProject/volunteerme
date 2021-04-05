@@ -5,10 +5,13 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import 'bootstrap/dist/css/bootstrap.css';
 import LogIn from './component/SignIn';
+import {Account} from './component/volunteer_auth/Accounts';
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <Account>
+      <App />
+    </Account>
   </React.StrictMode>,
   document.getElementById('root')
 );

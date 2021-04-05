@@ -47,6 +47,9 @@ class VolunteerTable extends Component {
         <Link className='btn btn-primary btn-large m-3' to='/createvolunteer'>
           Create Volunteer Post
         </Link>
+        <Link className="btn btn-primary btn-large m-3" to='../volunteer_auth/Volunteer_sign_in'>
+          Volunteer Sign In
+        </Link>
         <SearchBar
           input={this.state.input}
           onChange={this.updateInput.bind(this)}

@@ -7,6 +7,8 @@ import CreateVolunteer from './component/volunteer/CreateVolunteer'
 import {BrowserRouter as Router, Route} from 'react-router-dom';
 import UpdatePost from './component/volunteer/UpdatePost';
 import profile from './component/profile/profile';
+import VolunteerSignIn from './component/volunteer_auth/Volunteer_sign_in';
+
 
  
 
@@ -20,6 +22,7 @@ function App() {
         {/* <Route path="/signup" component={SignUp}/> */}
         {/* <Route path="/dashboard" component={Dashboard}/> */}
         <Route path='/UpdatePost/:id' component={UpdatePost}/>
+        <Route path='/volunteer_auth/Volunteer_sign_in' component={VolunteerSignIn}/>
       </Router>
   );
 }
