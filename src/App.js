@@ -1,7 +1,6 @@
-import logo from './logo.svg';
 import './App.css';
 import SignIn from './component/admin_auth/admin_signin';
-import SignUp from './component/admin_auth/admin_signup';
+import SignUp from './admin_signup';
 import Dashboard from './component/Dashboard';
 import CreateVolunteer from './component/volunteer/CreateVolunteer'
 import {BrowserRouter as Router, Route} from 'react-router-dom';

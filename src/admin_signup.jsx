@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {CognitoUserPool} from 'amazon-cognito-identity-js'
-import '../../styles/Login.css'
+// import '../../styles/Login.css'
 
 class SignUp extends Component {
     constructor(props) {
