@@ -1,15 +1,23 @@
-import React, { Component } from 'react';
+import React, { Component, useState } from 'react';
+import { CognitoUserPool } from 'amazon-cognito-identity-js';
+import { postVolunteerPost } from '../services/volunteerPostsService';
+import SignUp from './SignUp';
 
-class SignUp extends Component {
+const poolData = {
+    UserPoolId: 'us-east-1_9k2QFYRv4',
+    ClientId: '3brcvmuhjbeetmsgiqtncjr891'
+}
+
+const UserPool = new CognitoUserPool(poolData);
+
+class AdminSignUp extends Component {
     constructor(props) {
         super(props);
-        this.state = { email: '', password: '', isAuthenticated: false }; // NOTE: user should always be intended to be
-        // de-authenticated when they redirect to login page
+        this.state = { email: '', password: '', isAuthenticated: false };
         this.handleSubmit = this.handleSubmit.bind(this);
         this.onEmailChange = this.onEmailChange.bind(this);
         this.onPasswordChange = this.onPasswordChange.bind(this);
-        this.renderSignUp = this.renderSignUp.bind(this);
-        this.renderHomePage = this.renderHomePage.bind(this);
+
     }
 
     onPasswordChange(e) {
@@ -20,20 +28,16 @@ class SignUp extends Component {
         this.setState({ email: e.target.value });
     }
 
-    handleSubmit(event) {
+    handleSubmit = event => {
         event.preventDefault();
 
-        var password = this.state.password
-        var email = this.state.email
-    }
+        UserPool.signUp(this.state.email, this.state.password, [], null, (err, data) => {
+            if (err) console.error(err);
+            console.log(data);
+        });
 
-    renderSignUp(event){
-        this.props.history.push('/signup')
-    }
-
-    renderHomePage(event){
-        this.props.history.push('/dashboard')
-    }
+        this.props.history.push('/signin')
+    };
 
     render() {
         return (
@@ -56,12 +60,11 @@ class SignUp extends Component {
                             </section>
                             <button onClick={this.renderHomePage} className="btn btn-primary btn-block" type='submit'>Sign Up</button>
                         </form>
-                        
                     </section>
                 </section>
             </section>
-        );
-    };
+        )
+    }
 }
- 
-export default SignUp;
+
+export default AdminSignUp;
