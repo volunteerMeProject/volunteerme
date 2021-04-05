@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import '../styles/Login.css'
+import {CognitoUserPool} from 'amazon-cognito-identity-js'
+import '../../styles/Login.css'
 
 class SignUp extends Component {
     constructor(props) {
@@ -11,6 +12,12 @@ class SignUp extends Component {
         this.onPasswordChange = this.onPasswordChange.bind(this);
         this.renderSignUp = this.renderSignUp.bind(this);
         this.renderHomePage = this.renderHomePage.bind(this);
+
+    };
+
+    poolData = {
+        UserPoolId:'us-east-1_hlRyJddSG',
+        ClientId:'5esvetn1ck838b4iqg4bumd3su'
     }
 
     onPasswordChange(e) {
@@ -23,9 +30,14 @@ class SignUp extends Component {
 
     handleSubmit(event) {
         event.preventDefault();
-
+        const UserPool = new CognitoUserPool(this.poolData)
         var password = this.state.password
         var email = this.state.email
+
+        UserPool.signUp(email,password,[],null,(err,data)=>{
+            if (err) console.error(err);
+            console.log(data);
+        })
     }
 
     renderSignUp(event){
@@ -55,7 +67,7 @@ class SignUp extends Component {
                                 <label>Double ConfirmPassword : </label>
                                 <input onChange={this.onPasswordChange} className="form-control" type='password' placeholder='*****' />
                             </section>
-                            <button onClick={this.renderHomePage} className="btn btn-primary btn-block" type='submit'>Sign Up</button>
+                            <button /*onClick={this.renderHomePage}*/ className="btn btn-primary btn-block" type='submit'>Sign Up</button>
                         </form>
                         
                     </section>
