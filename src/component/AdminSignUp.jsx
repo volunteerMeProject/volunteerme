@@ -1,7 +1,6 @@
 import React, { Component, useState } from 'react';
 import { CognitoUserPool } from 'amazon-cognito-identity-js';
 import { postVolunteerPost } from '../services/volunteerPostsService';
-import SignUp from './SignUp';
 
 const poolData = {
     UserPoolId: 'us-east-1_9k2QFYRv4',

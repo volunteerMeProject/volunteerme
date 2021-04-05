@@ -17,13 +17,11 @@ import AdminSignUp from './component/AdminSignUp.jsx';
 function App() {
   return (
       <Router>
-        <Route exact path="/signup" component={SignUp}/>
         <Route exact path="/signin" component={SignIn}/>
         <Route exact path="/" component={Dashboard}/>
         <Route exact path="/profile" component={profile}/>
         <Route exact path="/createvolunteer" component={CreateVolunteer}/>
         <Route exact path="/adminsignup" component={AdminSignUp}/>
-        <Route path="/signup" component={SignUp}/>
         {/* <Route path="/dashboard" component={Dashboard}/> */}
         <Route path='/UpdatePost/:id' component={UpdatePost}/>
         <Route path='/volunteer_auth/Volunteer_sign_in' component={VolunteerSignIn}/>
