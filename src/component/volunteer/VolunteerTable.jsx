@@ -73,7 +73,7 @@ class VolunteerTable extends Component {
           input={this.state.input}
           onChange={this.updateInput.bind(this)}
         />
-        {// Put logout button here based on if user is logged in}
+        {/* {Put logout button here based on if user is logged in} */}
         <table className="table table-striped table-dark">
           <thead>
             <tr>
