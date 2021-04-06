@@ -58,7 +58,7 @@ class VolunteerTable extends Component {
     var test = this.context;
     test.logout();
     alert('logged out');
-    this.setState();
+    
   }
 
   render() {
@@ -77,12 +77,6 @@ class VolunteerTable extends Component {
           input={this.state.input}
           onChange={this.updateInput.bind(this)}
         />
-
-
-        {/* <button onClick={this.logoutUser.bind(this)}>
-          Log Out
-        </button> */}
-
         {/* {Put logout button here based on if user is logged in} */}
         <table className="table table-striped table-dark">
           <thead>
