@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Joi from 'joi-browser';
 import '../../styles/volunteerSIgnUp.css';
+import { CognitoUserPool } from 'amazon-cognito-identity-js';
 
 
 class VolunteerSignUp extends Component {
@@ -12,9 +13,16 @@ class VolunteerSignUp extends Component {
     errors: {}
   }
 
+  poolData = {
+    UserPoolId: 'us-east-1_QySj6OP4L',
+    ClientId: '75i2r6h3adjoes6ksueqomkqd3'
+  }
+
+  UserPool = new CognitoUserPool(this.poolData);
+
   schema = {
     email: Joi.string().email().required(),
-    password: Joi.string().required(),
+    password: Joi.string().min(8).required(),
   }
 
   validate = () => {
@@ -41,6 +49,13 @@ class VolunteerSignUp extends Component {
     const errors = this.validate();
     this.setState({ errors: errors || {}});
     if (errors) return;
+
+    const { email, password } = this.state.user;
+
+    this.UserPool.signUp(email, password, [], null, (err, data) => {
+      if (err) console.log(err);
+      console.log(data);
+    });
 
     console.log(this.state.user);
   }
