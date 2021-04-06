@@ -61,6 +61,13 @@ class UpdatePost extends React.Component {
         <form onSubmit={this.handleSubmit} className="">
           <div className="row p-2">
             <label className="h3 form-label" style={{color:"green"}}>
+              Organization: 
+            </label>
+            <input
+              className="form-control mt-2" disabled required name="Organization" type="text" defaultValue={this.state.volunteerPost.Organization} onChange={this.handleChange} />
+          </div>
+          <div className="row p-2">
+            <label className="h3 form-label" style={{color:"green"}}>
               Title:
             </label>
             <input
@@ -76,7 +83,7 @@ class UpdatePost extends React.Component {
             <label className="h3 form-label" style={{color:"green"}}>
               Qualifications:
             </label>
-            <input className="form-control mt-2" required name="Qualification" type="text" defaultValue={this.state.volunteerPost.Qualifications} onChange={this.handleChange} /> 
+            <input className="form-control mt-2" required name="Qualifications" type="text" defaultValue={this.state.volunteerPost.Qualifications} onChange={this.handleChange} /> 
           </div>
           <div className="row p-2">
             <label className="h3 form-label" style={{color:"green"}}>
