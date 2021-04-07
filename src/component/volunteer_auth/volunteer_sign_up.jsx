@@ -53,17 +53,18 @@ class VolunteerSignUp extends Component {
     const { email, password } = this.state.user;
 
     this.UserPool.signUp(email, password, [], null, (err, data) => {
-      if (err) console.log(err);
-      console.log(data);
+      if (err) {
+        const errors = {...this.state.errors};
+        errors.message = err.message;
+        this.setState({ errors });
+      }else {
+        this.props.history.push('/');
+      }
     });
-
-    console.log(this.state.user);
   }
 
   renderError (keyName) {
-    if (this.state.errors[keyName]) {
-      return <p className='volunteerFormSignUpError'>{this.state.errors[keyName]}</p>;
-    }
+    if (this.state.errors[keyName]) return <p className='volunteerFormSignUpError'>{this.state.errors[keyName]}</p>
   }
 
   render() { 
@@ -84,12 +85,12 @@ class VolunteerSignUp extends Component {
               />
             </div>
           ))}
+          {this.renderError('message')}
           <button className="btn btn-info volunteerSubmitButton">
             Submit
           </button>
         </form>
       </React.Fragment>
-
     );
   }
 }
