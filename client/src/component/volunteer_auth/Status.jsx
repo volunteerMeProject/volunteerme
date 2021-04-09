@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { AccountContext } from './Accounts';
+import { AccountContext } from '../Accounts';
 
 export default () => {
   const [status, setStatus] = useState(false);
