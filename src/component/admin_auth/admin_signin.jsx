@@ -1,4 +1,5 @@
 import React, { useState, useContext } from 'react';
+import { Link ,Redirect} from 'react-router-dom';
 import { AccountContext } from './Accounts';
 import '../../styles/Login.css'
 
@@ -36,6 +37,7 @@ export default () => {
                     </section>
 
                     <button /*onClick={this.renderHomePage}*/ className="btn btn-primary btn-block" type='submit'>LOGIN</button>
+                    <Link className="btn btn-primary btn-block" to={{pathname:"/signup"}}>SIGNUP </Link>
                 </form>
                 
             </section>
