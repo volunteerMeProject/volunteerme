@@ -1,7 +1,6 @@
 import React, { useState, useContext } from 'react';
-import { AccountContext } from './Accounts';
+import { AccountContext } from '../Accounts';
 import '../../styles/Login.css'
-import Pool from './UserPool'
 
 export default () => {
   const [email, setEmail] = useState('');

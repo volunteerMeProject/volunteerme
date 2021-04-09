@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import { AccountContext } from './Accounts';
+import { AccountContext } from '../Accounts';
 import '../../styles/Login.css'
 
 export default () => {
@@ -25,7 +25,7 @@ export default () => {
         <section className="auth-inner">
             <section className="container">
                 <form onSubmit={onSubmit} method="POST">
-                    <h3>login</h3>
+                    <h3>Admin Login</h3>
                     <section className="form-group">
                         <label>Email : </label>
                         <input onChange={event => setEmail(event.target.value)} className="form-control" type='email' placeholder='example@email.com' />
