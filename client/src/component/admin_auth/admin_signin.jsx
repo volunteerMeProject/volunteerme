@@ -6,14 +6,15 @@ export default () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const { authenticate } = useContext(AccountContext);
+  const { AdminAuthenticate } = useContext(AccountContext);
 
   const onSubmit = event => {
     event.preventDefault();
 
-    authenticate(email, password)
+    AdminAuthenticate(email, password)
       .then(data => {
-        console.log('Logged in!', data);
+        alert("The admin: " + email + " is now logged in!");
+        window.location.href = "/"
       })
       .catch(err => {
         console.error('Failed to login!', err);
@@ -35,7 +36,7 @@ export default () => {
                         <input onChange={event => setPassword(event.target.value)} className="form-control" type='password' placeholder='*****' />
                     </section>
 
-                    <button /*onClick={this.renderHomePage}*/ className="btn btn-primary btn-block" type='submit'>LOGIN</button>
+                    <button className="btn btn-primary btn-block" type='submit'>LOGIN</button>
                 </form>
                 
             </section>

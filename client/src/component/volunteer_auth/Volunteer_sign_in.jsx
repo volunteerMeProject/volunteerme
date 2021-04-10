@@ -6,12 +6,12 @@ export default () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const { authenticate } = useContext(AccountContext);
+  const { VolunteerAuthenticate } = useContext(AccountContext);
 
   const onSubmit = event => {
     event.preventDefault();
 
-    authenticate(email, password)
+    VolunteerAuthenticate(email, password)
       .then(data => {
         console.log('Logged in!', data);
         alert("" + email + " is now logged in!");
