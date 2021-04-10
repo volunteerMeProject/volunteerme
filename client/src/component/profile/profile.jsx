@@ -12,8 +12,7 @@ class profile extends Component {
         phone:'',
     }
 
-    constructor(props) {
-        super(props);
+    componentDidMount() {
         axios.get(`${profileApiUrl}/1`)
             .then((res, err) => {
                 console.log(res);

@@ -14,15 +14,15 @@ class VolunteerTable extends Component {
     volunteerPostsDefault: [],
   }
 
-  constructor(props) {
-    super(props);
-    getAllVolunteerPosts().then((res, err) => {
-      const volunteerPostsDefault = res.data.body;
-      volunteerPostsDefault.sort((a, b) => (a.Time > b.Time) ? 1 : -1);
+  componentDidMount() {
+    getAllVolunteerPosts()
+      .then((res, err) => {
+        const volunteerPostsDefault = res.data.body;
+        volunteerPostsDefault.sort((a, b) => (a.Time > b.Time) ? 1 : -1);
 
-      this.setState({ volunteerPostsDefault });
-      this.setState({ volunteerPosts: volunteerPostsDefault})
-    })
+        this.setState({ volunteerPostsDefault });
+        this.setState({ volunteerPosts: volunteerPostsDefault})
+      });
   }
 
   async handleDelete(e) {
