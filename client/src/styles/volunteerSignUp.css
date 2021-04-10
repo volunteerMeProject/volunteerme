@@ -1,0 +1,26 @@
+.volunteerSignUpForm {
+  display: flex;
+  flex-direction: column;
+  justify-content: left;
+  margin-left: 40%;
+}
+
+.volunteerSignUpDiv {
+  display: flex;
+  flex-direction: column;
+  justify-content: left;
+}
+
+.volunteerSignUpInput {
+  width: 30%;
+  height: 30px;
+  margin-bottom: 3%;
+  border-radius: 10px;
+}
+
+.volunteerFormSignUpError {
+  background-color: red;
+  color: white;
+  width: 30%;
+  border-radius: 10px;
+}

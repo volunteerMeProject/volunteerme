@@ -1,8 +1,11 @@
-import React, { Component } from 'react';
+import React, { Component, useContext } from 'react';
 import { getAllVolunteerPosts } from '../../services/volunteerPostsService';
 import { deleteVolunteerPost } from '../../services/volunteerPostsService';
 import { Link } from 'react-router-dom';
 import SearchBar from './SearchBar';
+import Pool from '../volunteer_auth/UserPool';
+import {AccountContext} from '../Accounts';
+
 
 class VolunteerTable extends Component {
   state = {
@@ -41,16 +44,46 @@ class VolunteerTable extends Component {
     this.setState({volunteerPosts: filtered});
   }
 
+  checkVolunteerSignIn() {
+    const user = Pool.getCurrentUser();
+    console.log(user);
+    if (user) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+  static contextType = AccountContext;
+  logoutUser(e) {
+    var test = this.context;
+    test.logout();
+    alert('Logged out');
+    window.location.reload();
+    
+  }
+
   render() {
     return (
       <React.Fragment>
         <Link className='btn btn-primary btn-large m-3' to='/createvolunteer'>
           Create Volunteer Post
         </Link>
+        <Link className="btn btn-primary btn-large m-3" to='../volunteer_auth/Volunteer_sign_in'>
+          Volunteer Sign In
+        </Link>
+        <Link className="btn btn-primary btn-large m-3" to='../admin_auth/admin_signin'>
+          Admin Sign In
+        </Link>
         <SearchBar
           input={this.state.input}
           onChange={this.updateInput.bind(this)}
         />
+        {this.checkVolunteerSignIn() && 
+          <button className="btn btn-primary btn-large m-3" onClick={this.logoutUser.bind(this)}>
+            Logout
+          </button>
+        }
+        {/* {Put logout button here based on if user is logged in} */}
         <table className="table table-striped table-dark">
           <thead>
             <tr>

@@ -4,11 +4,14 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import 'bootstrap/dist/css/bootstrap.css';
-import LogIn from './component/SignIn';
+// import LogIn from './component/SignIn';
+import {Account} from './component/Accounts';
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <Account>
+      <App />
+    </Account>
   </React.StrictMode>,
   document.getElementById('root')
 );
