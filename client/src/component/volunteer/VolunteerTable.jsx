@@ -1,10 +1,10 @@
 import React, { Component, useContext } from 'react';
-import { withRouter } from 'react-router-dom'
 import { getAllVolunteerPosts } from '../../services/volunteerPostsService';
 import { deleteVolunteerPost } from '../../services/volunteerPostsService';
 import { Link } from 'react-router-dom';
 import SearchBar from './SearchBar';
-import Pool from '../volunteer_auth/UserPool';
+import VolunteerPool from '../volunteer_auth/UserPool';
+import AdminPool from '../admin_auth/UserPool';
 import {AccountContext} from '../Accounts';
 
 
@@ -13,26 +13,6 @@ class VolunteerTable extends Component {
     input: "",
     volunteerPosts: [],
     volunteerPostsDefault: [],
-  }
-
-  constructor(props) {
-    super(props);
-  }
-
-  componentDidMount() {
-    getAllVolunteerPosts()
-      .then((res, err) => {
-        const volunteerPostsDefault = res.data.body;
-        volunteerPostsDefault.sort((a, b) => (a.Time > b.Time) ? 1 : -1);
-
-        this.setState({ volunteerPostsDefault });
-        this.setState({ volunteerPosts: volunteerPostsDefault})
-      });
-  }
-
-  handleUpdate = event => {
-    const id = event.target.value;
-    this.props.history.push(`/UpdatePost/${id}`);
   }
 
   async handleDelete(e) {
@@ -48,6 +28,15 @@ class VolunteerTable extends Component {
     this.setState({ volunteerPosts: filteredVolunteerPosts });
   }
 
+  async componentDidMount() {
+    const res = await getAllVolunteerPosts();
+    const volunteerPostsDefault = res.data.body;
+    volunteerPostsDefault.sort((a, b) => (a.Time > b.Time) ? 1 : -1);
+
+    this.setState({ volunteerPostsDefault });
+    this.setState({ volunteerPosts: volunteerPostsDefault})
+  }
+
   async updateInput(input) {
     const filtered = this.state.volunteerPostsDefault.filter(posting => {
       return posting.Title.toLowerCase().includes(input.toLowerCase())
@@ -57,7 +46,17 @@ class VolunteerTable extends Component {
   }
 
   checkVolunteerSignIn() {
-    const user = Pool.getCurrentUser();
+    const user = VolunteerPool.getCurrentUser();
+    console.log(user);
+    if (user) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  checkAdminSignIn() {
+    const user = AdminPool.getCurrentUser();
     console.log(user);
     if (user) {
       return true;
@@ -77,23 +76,35 @@ class VolunteerTable extends Component {
   render() {
     return (
       <React.Fragment>
-        <Link className='btn btn-primary btn-large m-3' to='/createvolunteer'>
-          Create Volunteer Post
-        </Link>
-        <Link className="btn btn-primary btn-large m-3" to='../admin_auth/admin_sign_up'>
-          Admin Sign Up
-        </Link>
-        <Link className="btn btn-primary btn-large m-3" to='../volunteer_auth/Volunteer_sign_in'>
-          Volunteer Sign In
-        </Link>
-        <Link className="btn btn-primary btn-large m-3" to='../admin_auth/admin_signin'>
-          Admin Sign In
-        </Link>
+        {this.checkVolunteerSignIn() || this.checkAdminSignIn() && 
+          <Link className="btn btn-primary btn-large m-3" to="../profile/profile">Profile</Link>
+        }
+        {this.checkAdminSignIn() && 
+          <Link className='btn btn-primary btn-large m-3' to='/createvolunteer'>
+            Create Volunteer Post
+          </Link>
+        }
+        {!this.checkAdminSignIn() && !this.checkVolunteerSignIn() && 
+          <div>
+            <Link className="btn btn-primary btn-large m-3" to='../admin_auth/admin_sign_up'>
+              Admin Sign Up
+            </Link>
+            <Link className="btn btn-primary btn-large m-3" to='../admin_auth/admin_signin'>
+              Admin Sign In
+            </Link>
+            <Link className="btn btn-primary btn-large m-3" to='../volunteer_auth/volunteer_sign_up'>
+              Volunteer Sign Up
+            </Link>
+            <Link className="btn btn-primary btn-large m-3" to='../volunteer_auth/Volunteer_sign_in'>
+              Volunteer Sign In
+            </Link>
+          </div>
+        }
         <SearchBar
           input={this.state.input}
           onChange={this.updateInput.bind(this)}
         />
-        {this.checkVolunteerSignIn() && 
+        {this.checkVolunteerSignIn() || this.checkAdminSignIn() && 
           <button className="btn btn-primary btn-large m-3" onClick={this.logoutUser.bind(this)}>
             Logout
           </button>
@@ -118,13 +129,18 @@ class VolunteerTable extends Component {
                 <td>{volunteerPost.Qualifications}</td>
                 <td>{volunteerPost.Location}</td>
                 <td>
-
-                  <button value={volunteerPost.id} onClick={this.handleUpdate.bind(this)} className="btn-info btn-sm">
-                    Update
-                  </button>
-                  <button value={volunteerPost.id} onClick={this.handleDelete.bind(this)} className="btn-info btn-sm">
-                    Delete
-                  </button>
+                {this.checkAdminSignIn() && 
+                  <div>
+                    <Link className="btn-info btn-sm m-3" to={`/UpdatePost/${volunteerPost.id}`}
+                    >
+                      Update
+                    </Link>
+                    <button value={volunteerPost.id} onClick={this.handleDelete.bind(this)} className="btn-info btn-sm m-3"
+                    >
+                      Delete
+                    </button>
+                  </div>
+                }
                 </td>
               </tr>
             ))}
@@ -135,4 +151,4 @@ class VolunteerTable extends Component {
   }
 }
 
-export default withRouter(VolunteerTable);
+export default VolunteerTable;
