@@ -10,6 +10,7 @@ import UpdatePost from './component/volunteer/UpdatePost';
 import profile from './component/profile/profile';
 import VolunteerSignIn from './component/volunteer_auth/Volunteer_sign_in';
 import AdminSignUp from './component/AdminSignUp.jsx';
+import VolunteerSignUp from './component/volunteer_auth/volunteer_sign_up';
 import AdminSignIn from './component/admin_auth/admin_signin';
 
  
@@ -25,6 +26,7 @@ function App() {
         <Route exact path="/adminsignup" component={AdminSignUp}/>
         {/* <Route path="/dashboard" component={Dashboard}/> */}
         <Route path='/UpdatePost/:id' component={UpdatePost}/>
+        <Route path='/volunteer_auth/Volunteer_sign_up' component={VolunteerSignUp}/>
         <Route path='/volunteer_auth/Volunteer_sign_in' component={VolunteerSignIn}/>
         <Route path='/admin_auth/admin_signin' component={AdminSignIn}/>
       </Router>
