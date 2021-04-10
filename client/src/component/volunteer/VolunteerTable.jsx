@@ -14,6 +14,17 @@ class VolunteerTable extends Component {
     volunteerPostsDefault: [],
   }
 
+  constructor(props) {
+    super(props);
+    getAllVolunteerPosts().then((res, err) => {
+      const volunteerPostsDefault = res.data.body;
+      volunteerPostsDefault.sort((a, b) => (a.Time > b.Time) ? 1 : -1);
+
+      this.setState({ volunteerPostsDefault });
+      this.setState({ volunteerPosts: volunteerPostsDefault})
+    })
+  }
+
   async handleDelete(e) {
     const id = e.target.value;
     const { status } = await deleteVolunteerPost(id);
@@ -25,15 +36,6 @@ class VolunteerTable extends Component {
     console.log(filteredVolunteerPosts);
     this.setState({ filteredVolunteerPosts });
     this.setState({ volunteerPosts: filteredVolunteerPosts });
-  }
-
-  async componentDidMount() {
-    const res = await getAllVolunteerPosts();
-    const volunteerPostsDefault = res.data.body;
-    volunteerPostsDefault.sort((a, b) => (a.Time > b.Time) ? 1 : -1);
-
-    this.setState({ volunteerPostsDefault });
-    this.setState({ volunteerPosts: volunteerPostsDefault})
   }
 
   async updateInput(input) {
