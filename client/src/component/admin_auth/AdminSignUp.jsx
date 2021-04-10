@@ -1,26 +1,30 @@
 import React, { Component, useState } from 'react';
 import { CognitoUserPool } from 'amazon-cognito-identity-js';
-import { postVolunteerPost } from '../services/volunteerPostsService';
+import { admin_user_pool_id, admin_client_id } from '../../config';
 
 const poolData = {
-    UserPoolId: 'us-east-1_9k2QFYRv4',
-    ClientId: '3brcvmuhjbeetmsgiqtncjr891'
-}
+    UserPoolId: admin_user_pool_id,
+    ClientId: admin_client_id
+};
 
 const UserPool = new CognitoUserPool(poolData);
 
 class AdminSignUp extends Component {
     constructor(props) {
         super(props);
-        this.state = { email: '', password: '', isAuthenticated: false };
+        this.state = { email: '', password: '', confirmPassword: '', isAuthenticated: false };
         this.handleSubmit = this.handleSubmit.bind(this);
         this.onEmailChange = this.onEmailChange.bind(this);
         this.onPasswordChange = this.onPasswordChange.bind(this);
-
+        this.onConfirmPasswordChange = this.onConfirmPasswordChange.bind(this);
     }
 
     onPasswordChange(e) {
         this.setState({ password: e.target.value });
+    }
+
+    onConfirmPasswordChange(e) {
+        this.setState({ confirmPassword: e.target.value });
     }
 
     onEmailChange(e) {
@@ -30,12 +34,18 @@ class AdminSignUp extends Component {
     handleSubmit = event => {
         event.preventDefault();
 
-        UserPool.signUp(this.state.email, this.state.password, [], null, (err, data) => {
-            if (err) console.error(err);
-            console.log(data);
-        });
-
-        this.props.history.push('/signin')
+        if (this.state.password === this.state.confirmPassword) {
+            UserPool.signUp(this.state.email, this.state.password, [], null, (err, data) => {
+                if (err) {
+                    console.error(err);
+                } else {
+                    this.props.history.push('/signin')
+                }
+                console.log(data);
+            });
+        } else {
+            console.error("Passwords do not match");
+        }
     };
 
     render() {
@@ -55,7 +65,7 @@ class AdminSignUp extends Component {
                             </section>
                             <section className="form-group">
                                 <label>Double ConfirmPassword : </label>
-                                <input onChange={this.onPasswordChange} className="form-control" type='password' placeholder='*****' />
+                                <input onChange={this.onConfirmPasswordChange} className="form-control" type='password' placeholder='*****' />
                             </section>
                             <button onClick={this.renderHomePage} className="btn btn-primary btn-block" type='submit'>Sign Up</button>
                         </form>
