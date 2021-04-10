@@ -9,7 +9,7 @@ import {BrowserRouter as Router, Route} from 'react-router-dom';
 import UpdatePost from './component/volunteer/UpdatePost';
 import profile from './component/profile/profile';
 import VolunteerSignIn from './component/volunteer_auth/Volunteer_sign_in';
-import AdminSignUp from './component/AdminSignUp.jsx';
+import AdminSignUp from './component/admin_auth/admin_sign_up.jsx';
 import VolunteerSignUp from './component/volunteer_auth/volunteer_sign_up';
 import AdminSignIn from './component/admin_auth/admin_signin';
 
@@ -23,7 +23,7 @@ function App() {
         <Route exact path="/" component={Dashboard}/>
         <Route exact path="/profile" component={profile}/>
         <Route exact path="/createvolunteer" component={CreateVolunteer}/>
-        <Route exact path="/adminsignup" component={AdminSignUp}/>
+        <Route exact path="/admin_auth/admin_sign_up" component={AdminSignUp}/>
         {/* <Route path="/dashboard" component={Dashboard}/> */}
         <Route path='/UpdatePost/:id' component={UpdatePost}/>
         <Route path='/volunteer_auth/Volunteer_sign_up' component={VolunteerSignUp}/>
