@@ -45,13 +45,16 @@ class UpdatePost extends React.Component {
     this.setState({volunteerPost: post});
   }
 
-  async componentDidMount() {
+  componentDidMount() {
     // Get posting from db through axiom
-    const result = await getVolunteerPost(this.props.match.params.id);
-    const post = result.data.Item;
+    getVolunteerPost(this.props.match.params.id)
+      .then((res, err) => {
+        const post = res.data.Item;
     
-    this.setState({volunteerPost: post});
-    console.log(this.state.volunteerPost);
+        this.setState({volunteerPost: post});
+        console.log(this.state.volunteerPost);
+      });
+    
     
   }
 

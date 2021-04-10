@@ -1,4 +1,5 @@
 import React, { Component, useContext } from 'react';
+import { withRouter } from 'react-router-dom'
 import { getAllVolunteerPosts } from '../../services/volunteerPostsService';
 import { deleteVolunteerPost } from '../../services/volunteerPostsService';
 import { Link } from 'react-router-dom';
@@ -14,6 +15,26 @@ class VolunteerTable extends Component {
     volunteerPostsDefault: [],
   }
 
+  constructor(props) {
+    super(props);
+  }
+
+  componentDidMount() {
+    getAllVolunteerPosts()
+      .then((res, err) => {
+        const volunteerPostsDefault = res.data.body;
+        volunteerPostsDefault.sort((a, b) => (a.Time > b.Time) ? 1 : -1);
+
+        this.setState({ volunteerPostsDefault });
+        this.setState({ volunteerPosts: volunteerPostsDefault})
+      });
+  }
+
+  handleUpdate = event => {
+    const id = event.target.value;
+    this.props.history.push(`/UpdatePost/${id}`);
+  }
+
   async handleDelete(e) {
     const id = e.target.value;
     const { status } = await deleteVolunteerPost(id);
@@ -25,15 +46,6 @@ class VolunteerTable extends Component {
     console.log(filteredVolunteerPosts);
     this.setState({ filteredVolunteerPosts });
     this.setState({ volunteerPosts: filteredVolunteerPosts });
-  }
-
-  async componentDidMount() {
-    const res = await getAllVolunteerPosts();
-    const volunteerPostsDefault = res.data.body;
-    volunteerPostsDefault.sort((a, b) => (a.Time > b.Time) ? 1 : -1);
-
-    this.setState({ volunteerPostsDefault });
-    this.setState({ volunteerPosts: volunteerPostsDefault})
   }
 
   async updateInput(input) {
@@ -107,12 +119,10 @@ class VolunteerTable extends Component {
                 <td>{volunteerPost.Location}</td>
                 <td>
 
-                  <Link className="btn-info btn-sm" to={`/UpdatePost/${volunteerPost.id}`}
-                  >
+                  <button value={volunteerPost.id} onClick={this.handleUpdate.bind(this)} className="btn-info btn-sm">
                     Update
-                  </Link>
-                  <button value={volunteerPost.id} onClick={this.handleDelete.bind(this)} className="btn-info btn-sm"
-                  >
+                  </button>
+                  <button value={volunteerPost.id} onClick={this.handleDelete.bind(this)} className="btn-info btn-sm">
                     Delete
                   </button>
                 </td>
@@ -125,4 +135,4 @@ class VolunteerTable extends Component {
   }
 }
 
-export default VolunteerTable;
+export default withRouter(VolunteerTable);

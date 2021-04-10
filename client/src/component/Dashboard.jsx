@@ -10,7 +10,7 @@ class HomePage extends Component {
         return (
           <React.Fragment>
             <Link className="btn btn-primary btn-large m-3" to="./profile">Profile</Link>
-            <VolunteerTable/>
+            <VolunteerTable />
           </React.Fragment>
         );
     }

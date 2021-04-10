@@ -10,26 +10,20 @@ class profile extends Component {
         name:'',
         email:'',
         phone:'',
-     }
-
-    fetchProducts = async() =>{
-        try{
-            const res = await axios.get(`${profileApiUrl}/1`)
-            console.log(res);
-            this.setState({
-                name:res.data.Item.name,
-                email:res.data.Item.email,
-                phone:res.data.Item.phone
-            });
-        } catch(e){
-            console.log("error occur :", e);
-        }
-
     }
 
-    componentDidMount = () => {
-        this.fetchProducts();
+    componentDidMount() {
+        axios.get(`${profileApiUrl}/1`)
+            .then((res, err) => {
+                console.log(res);
+                this.setState({
+                    name:res.data.Item.name,
+                    email:res.data.Item.email,
+                    phone:res.data.Item.phone
+                });
+            })
     }
+
     render() { 
         return(
             <section className="auth-wrapper">
