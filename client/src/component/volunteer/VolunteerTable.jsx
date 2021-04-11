@@ -55,6 +55,20 @@ class VolunteerTable extends Component {
     }
   }
 
+  handleSignUp(e) {
+    const postID = e.target.value;
+    var row = document.getElementById(postID);
+    var button = document.getElementById("Button:" + postID);
+    if (button.innerText === "Signed Up!") {
+      button.innerText = "Sign Up";
+      row.style.backgroundColor = null;
+    } else {
+      button.innerText = "Signed Up!";
+      row.style.backgroundColor = "blue";
+
+    }
+  }
+
   checkAdminSignIn() {
     const user = AdminPool.getCurrentUser();
     console.log(user);
@@ -76,7 +90,7 @@ class VolunteerTable extends Component {
   render() {
     return (
       <React.Fragment>
-        {this.checkVolunteerSignIn() || this.checkAdminSignIn() && 
+        {(this.checkVolunteerSignIn() || this.checkAdminSignIn()) && 
           <Link className="btn btn-primary btn-large m-3" to="../profile/profile">Profile</Link>
         }
         {this.checkAdminSignIn() && 
@@ -84,7 +98,7 @@ class VolunteerTable extends Component {
             Create Volunteer Post
           </Link>
         }
-        {!this.checkAdminSignIn() && !this.checkVolunteerSignIn() && 
+        {(!this.checkAdminSignIn() && !this.checkVolunteerSignIn()) && 
           <div>
             <Link className="btn btn-primary btn-large m-3" to='../admin_auth/admin_sign_up'>
               Admin Sign Up
@@ -104,7 +118,7 @@ class VolunteerTable extends Component {
           input={this.state.input}
           onChange={this.updateInput.bind(this)}
         />
-        {this.checkVolunteerSignIn() || this.checkAdminSignIn() && 
+        {(this.checkVolunteerSignIn() || this.checkAdminSignIn()) && 
           <button className="btn btn-primary btn-large m-3" onClick={this.logoutUser.bind(this)}>
             Logout
           </button>
@@ -122,14 +136,14 @@ class VolunteerTable extends Component {
           </thead>
           <tbody>
             {this.state.volunteerPosts.map(volunteerPost => (
-              <tr key={volunteerPost.id}>
+              <tr key={volunteerPost.id} id={volunteerPost.id}>
                 <td>{volunteerPost.Title}</td>
                 <td>{volunteerPost.Organization}</td>
                 <td>{volunteerPost.Description}</td>
                 <td>{volunteerPost.Qualifications}</td>
                 <td>{volunteerPost.Location}</td>
                 <td>
-                {this.checkAdminSignIn() && 
+                {(this.checkAdminSignIn() && !this.checkVolunteerSignIn()) && 
                   <div>
                     <Link className="btn-info btn-sm m-3" to={`/UpdatePost/${volunteerPost.id}`}
                     >
@@ -140,6 +154,11 @@ class VolunteerTable extends Component {
                       Delete
                     </button>
                   </div>
+                }
+                {this.checkVolunteerSignIn() && 
+                <button value={volunteerPost.id} id={"Button:" + volunteerPost.id} onClick={this.handleSignUp.bind(this)} className="btn-info btn-sm m-3" >
+                  Sign Up
+                </button>
                 }
                 </td>
               </tr>
