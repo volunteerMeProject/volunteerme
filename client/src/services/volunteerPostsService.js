@@ -13,7 +13,7 @@ export function getVolunteerPost(id) {
   return axios.get(`${volunteerPostApiUrl}/${id}`)
 }
 
-export function updatePost(params) {
+export function updateVolunteerPost(params) {
   return axios.put(volunteerPostApiUrl, params)
 }
 

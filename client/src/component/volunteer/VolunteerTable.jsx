@@ -1,6 +1,5 @@
 import React, { Component, useContext } from 'react';
-import { getAllVolunteerPosts } from '../../services/volunteerPostsService';
-import { deleteVolunteerPost } from '../../services/volunteerPostsService';
+import { getAllVolunteerPosts, updateVolunteerPost, deleteVolunteerPost } from '../../services/volunteerPostsService';
 import { Link } from 'react-router-dom';
 import SearchBar from './SearchBar';
 import VolunteerPool from '../volunteer_auth/UserPool';
@@ -47,7 +46,6 @@ class VolunteerTable extends Component {
 
   checkVolunteerSignIn() {
     const user = VolunteerPool.getCurrentUser();
-    console.log(user);
     if (user) {
       return true;
     } else {
@@ -56,22 +54,60 @@ class VolunteerTable extends Component {
   }
 
   handleSignUp(e) {
-    const postID = e.target.value;
-    var row = document.getElementById(postID);
-    var button = document.getElementById("Button:" + postID);
-    if (button.innerText === "Signed Up!") {
-      button.innerText = "Sign Up";
-      row.style.backgroundColor = null;
+    const user = VolunteerPool.getCurrentUser();
+    const username = user.username;
+    let volunteerPost = this.state.volunteerPosts.filter(volunteerPost => volunteerPost.id == e.target.value)[0];
+    console.log(volunteerPost);
+    if (volunteerPost.volunteerIds) {
+      volunteerPost.volunteerIds = [...volunteerPost.volunteerIds, username];
     } else {
-      button.innerText = "Signed Up!";
-      row.style.backgroundColor = "blue";
-
+      volunteerPost.volunteerIds = [username];
     }
+    updateVolunteerPost(volunteerPost)
+      .then(() => {
+        return getAllVolunteerPosts()
+      })
+      .then((res) => {
+        const volunteerPostsDefault = res.data.body;
+        volunteerPostsDefault.sort((a, b) => (a.Time > b.Time) ? 1 : -1);
+
+        this.setState({ volunteerPostsDefault });
+        this.setState({ volunteerPosts: volunteerPostsDefault})
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+  }
+
+  shouldDisplaySignUpButton(volunteerPost) {
+    const user = VolunteerPool.getCurrentUser();
+    if (user){
+      const username = user.username;
+      if (!volunteerPost.volunteerIds || volunteerPost.volunteerIds.length == 0) {
+        return true;
+      }
+      const filtered = volunteerPost.volunteerIds.filter(id => {
+        return id.includes(username)
+      })
+      if (filtered.length != 0) {
+        return false;
+      }
+      return true;
+    }
+  }
+
+  getRowColor(volunteerPost) {
+    if (!this.checkVolunteerSignIn() || this.shouldDisplaySignUpButton(volunteerPost)) {
+      return null;
+    }
+    const style = {
+      backgroundColor: 'blue'
+    }
+    return style;
   }
 
   checkAdminSignIn() {
     const user = AdminPool.getCurrentUser();
-    console.log(user);
     if (user) {
       return true;
     } else {
@@ -99,7 +135,7 @@ class VolunteerTable extends Component {
           </Link>
         }
         {(!this.checkAdminSignIn() && !this.checkVolunteerSignIn()) && 
-          <div>
+          <React.Fragment>
             <Link className="btn btn-primary btn-large m-3" to='../admin_auth/admin_sign_up'>
               Admin Sign Up
             </Link>
@@ -112,7 +148,7 @@ class VolunteerTable extends Component {
             <Link className="btn btn-primary btn-large m-3" to='../volunteer_auth/Volunteer_sign_in'>
               Volunteer Sign In
             </Link>
-          </div>
+          </React.Fragment>
         }
         <SearchBar
           input={this.state.input}
@@ -136,7 +172,7 @@ class VolunteerTable extends Component {
           </thead>
           <tbody>
             {this.state.volunteerPosts.map(volunteerPost => (
-              <tr key={volunteerPost.id} id={volunteerPost.id}>
+              <tr key={volunteerPost.id} id={volunteerPost.id} style={this.getRowColor(volunteerPost)}>
                 <td>{volunteerPost.Title}</td>
                 <td>{volunteerPost.Organization}</td>
                 <td>{volunteerPost.Description}</td>
@@ -155,10 +191,15 @@ class VolunteerTable extends Component {
                     </button>
                   </div>
                 }
-                {this.checkVolunteerSignIn() && 
-                <button value={volunteerPost.id} id={"Button:" + volunteerPost.id} onClick={this.handleSignUp.bind(this)} className="btn-info btn-sm m-3" >
-                  Sign Up
-                </button>
+                {this.checkVolunteerSignIn() && this.shouldDisplaySignUpButton(volunteerPost) &&
+                  <button value={volunteerPost.id} id={"Button:" + volunteerPost.id} onClick={this.handleSignUp.bind(this)} className="btn-info btn-sm m-3" >
+                    Sign Up
+                  </button>
+                }
+                {this.checkVolunteerSignIn() && !this.shouldDisplaySignUpButton(volunteerPost) &&
+                  <button value={volunteerPost.id} id={"Button:" + volunteerPost.id} disabled={true} className="btn-info btn-sm m-3" >
+                    Signed Up
+                  </button>
                 }
                 </td>
               </tr>

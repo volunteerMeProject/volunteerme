@@ -1,5 +1,5 @@
 import React from "react";
-import { getVolunteerPost, updatePost } from "../../services/volunteerPostsService"
+import { getVolunteerPost, updateVolunteerPost } from "../../services/volunteerPostsService"
 
 class UpdatePost extends React.Component {
   constructor(props) {
@@ -25,7 +25,7 @@ class UpdatePost extends React.Component {
     
     event.preventDefault();
 
-    const { status } = await updatePost(this.state.volunteerPost);
+    const { status } = await updateVolunteerPost(this.state.volunteerPost);
     if (status === 200) {
       alert('Post Updated');
       console.log("success");

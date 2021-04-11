@@ -37,14 +37,13 @@ class AdminSignUp extends Component {
         if (this.state.password === this.state.confirmPassword) {
             UserPool.signUp(this.state.email, this.state.password, [], null, (err, data) => {
                 if (err) {
-                    console.error(err);
+                    alert(err.message);
                 } else {
                     this.props.history.push('/signin')
                 }
-                console.log(data);
             });
         } else {
-            console.error("Passwords do not match");
+            alert("Passwords do not match");
         }
     };
 
@@ -64,7 +63,7 @@ class AdminSignUp extends Component {
                                 <input onChange={this.onPasswordChange} className="form-control" type='password' placeholder='*****' />
                             </section>
                             <section className="form-group">
-                                <label>Double ConfirmPassword : </label>
+                                <label>Confirm Password : </label>
                                 <input onChange={this.onConfirmPasswordChange} className="form-control" type='password' placeholder='*****' />
                             </section>
                             <button onClick={this.renderHomePage} className="btn btn-primary btn-block" type='submit'>Sign Up</button>
