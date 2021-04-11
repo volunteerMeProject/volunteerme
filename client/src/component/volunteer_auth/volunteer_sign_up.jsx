@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Joi from 'joi-browser';
 import '../../styles/volunteerSignUp.css';
 import { CognitoUserPool } from 'amazon-cognito-identity-js';
+import { volunteer_user_pool_id, volunteer_client_id } from '../../config';
 
 
 class VolunteerSignUp extends Component {
@@ -14,8 +15,8 @@ class VolunteerSignUp extends Component {
   }
 
   poolData = {
-    UserPoolId: 'us-east-1_QySj6OP4L',
-    ClientId: '75i2r6h3adjoes6ksueqomkqd3'
+    UserPoolId: volunteer_user_pool_id,
+    ClientId: volunteer_client_id
   }
 
   UserPool = new CognitoUserPool(this.poolData);

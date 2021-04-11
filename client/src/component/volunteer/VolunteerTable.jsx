@@ -94,7 +94,7 @@ class VolunteerTable extends Component {
           <Link className="btn btn-primary btn-large m-3" to="../profile/profile">Profile</Link>
         }
         {this.checkAdminSignIn() && 
-          <Link className='btn btn-primary btn-large m-3' to='/createvolunteer'>
+          <Link className='btn btn-primary btn-large m-3' to='/createpost'>
             Create Volunteer Post
           </Link>
         }
