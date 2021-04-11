@@ -59,6 +59,7 @@ class VolunteerSignUp extends Component {
         errors.message = err.message;
         this.setState({ errors });
       }else {
+        alert('Please verify your email or you will not be able to login');
         this.props.history.push('/');
       }
     });
