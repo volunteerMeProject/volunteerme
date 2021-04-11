@@ -1,5 +1,5 @@
 import React, { Component, useContext } from 'react';
-import { getAllVolunteerPosts, deleteVolunteerPost } from '../../services/volunteerPostsService';
+import { getAllVolunteerPosts, updateVolunteerPost, deleteVolunteerPost } from '../../services/volunteerPostsService';
 import { Link } from 'react-router-dom';
 import SearchBar from './SearchBar';
 import VolunteerPool from '../volunteer_auth/UserPool';
@@ -54,37 +54,50 @@ class VolunteerTable extends Component {
   }
 
   handleSignUp(e) {
-    const postID = e.target.value;
-    var row = document.getElementById(postID);
-    var button = document.getElementById("Button:" + postID);
-    if (button.innerText === "Signed Up!") {
-      button.innerText = "Sign Up";
-      row.style.backgroundColor = null;
+    const user = VolunteerPool.getCurrentUser();
+    const username = user.username;
+    let volunteerPost = this.state.volunteerPosts.filter(volunteerPost => volunteerPost.id == e.target.value)[0];
+    console.log(volunteerPost);
+    if (volunteerPost.volunteerIds) {
+      volunteerPost.volunteerIds = [...volunteerPost.volunteerIds, username];
     } else {
-      button.innerText = "Signed Up!";
-      row.style.backgroundColor = "blue";
-
+      volunteerPost.volunteerIds = [username];
     }
+    updateVolunteerPost(volunteerPost)
+      .then(() => {
+        return getAllVolunteerPosts()
+      })
+      .then((res) => {
+        const volunteerPostsDefault = res.data.body;
+        volunteerPostsDefault.sort((a, b) => (a.Time > b.Time) ? 1 : -1);
+
+        this.setState({ volunteerPostsDefault });
+        this.setState({ volunteerPosts: volunteerPostsDefault})
+      })
+      .catch((err) => {
+        console.log(err);
+      })
   }
 
   shouldDisplaySignUpButton(volunteerPost) {
     const user = VolunteerPool.getCurrentUser();
-    const username = user.username;
-    console.log(volunteerPost.volunteerIds);
-    if (!volunteerPost.volunteerIds || volunteerPost.volunteerIds.length == 0) {
+    if (user){
+      const username = user.username;
+      if (!volunteerPost.volunteerIds || volunteerPost.volunteerIds.length == 0) {
+        return true;
+      }
+      const filtered = volunteerPost.volunteerIds.filter(id => {
+        return id.includes(username)
+      })
+      if (filtered.length != 0) {
+        return false;
+      }
       return true;
     }
-    const filtered = volunteerPost.volunteerIds.filter(id => {
-      return id.includes(username)
-    })
-    if (filtered.length != 0) {
-      return false;
-    }
-    return true;
   }
 
   getRowColor(volunteerPost) {
-    if (this.shouldDisplaySignUpButton(volunteerPost)) {
+    if (!this.checkVolunteerSignIn() || this.shouldDisplaySignUpButton(volunteerPost)) {
       return null;
     }
     const style = {
@@ -184,7 +197,7 @@ class VolunteerTable extends Component {
                   </button>
                 }
                 {this.checkVolunteerSignIn() && !this.shouldDisplaySignUpButton(volunteerPost) &&
-                  <button value={volunteerPost.id} id={"Button:" + volunteerPost.id} onClick={this.handleSignUp.bind(this)} disabled={true} className="btn-info btn-sm m-3" >
+                  <button value={volunteerPost.id} id={"Button:" + volunteerPost.id} disabled={true} className="btn-info btn-sm m-3" >
                     Signed Up
                   </button>
                 }
