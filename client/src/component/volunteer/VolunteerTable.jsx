@@ -99,7 +99,7 @@ class VolunteerTable extends Component {
           </Link>
         }
         {(!this.checkAdminSignIn() && !this.checkVolunteerSignIn()) && 
-          <div>
+          <React.Fragment>
             <Link className="btn btn-primary btn-large m-3" to='../admin_auth/admin_sign_up'>
               Admin Sign Up
             </Link>
@@ -112,7 +112,7 @@ class VolunteerTable extends Component {
             <Link className="btn btn-primary btn-large m-3" to='../volunteer_auth/Volunteer_sign_in'>
               Volunteer Sign In
             </Link>
-          </div>
+          </React.Fragment>
         }
         <SearchBar
           input={this.state.input}
