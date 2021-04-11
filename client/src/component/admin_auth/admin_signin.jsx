@@ -17,7 +17,8 @@ export default () => {
         window.location.href = "/"
       })
       .catch(err => {
-        console.error('Failed to login!', err);
+        console.error('Failed to login!', err.message);
+        alert(err.message);
       })
   };
 

@@ -60,7 +60,7 @@ class VolunteerSignUp extends Component {
         this.setState({ errors });
       }else {
         alert('Please verify your email or you will not be able to login');
-        this.props.history.push('/');
+        this.props.history.push('/volunteer_auth/Volunteer_sign_in');
       }
     });
   }
@@ -82,7 +82,7 @@ class VolunteerSignUp extends Component {
               <input
                 className='volunteerSignUpInput'
                 name={keyName}
-                type='text'
+                type={(keyName === 'password') ? 'password' : 'text'}
                 onChange={this.handleChange}
               />
             </div>

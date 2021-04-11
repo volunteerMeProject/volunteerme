@@ -18,7 +18,7 @@ export default () => {
         window.location.href = "/";
       })
       .catch(err => {
-        alert(`${err.message}`);
+        alert(err.message);
       })
   };
 
