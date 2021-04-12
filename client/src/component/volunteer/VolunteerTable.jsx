@@ -37,14 +37,22 @@ class VolunteerTable extends Component {
     });
   }
 
-  async componentDidMount() {
-    const res = await getAllVolunteerPosts();
-    const volunteerPostsDefault = res.data.body;
-    volunteerPostsDefault.sort((a, b) => (a.Time > b.Time) ? 1 : -1);
+  componentDidMount() {
+    
+    var timer1 = performance.now();
+    
+    getAllVolunteerPosts().then((res) => {
+      var timer2 = performance.now();
 
-    this.setEmail();
-    this.setState({ volunteerPostsDefault });
-    this.setState({ volunteerPosts: volunteerPostsDefault})
+      const volunteerPostsDefault = res.data.body;
+      volunteerPostsDefault.sort((a, b) => (a.Time > b.Time) ? 1 : -1);
+
+      this.setEmail();
+      this.setState({ volunteerPostsDefault });
+      this.setState({ volunteerPosts: volunteerPostsDefault})
+      
+      console.log("Get posts time: ", (timer2-timer1));
+    })
     
   }
 
