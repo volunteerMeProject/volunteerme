@@ -18,7 +18,7 @@ export default () => {
         console.log('Logged in!');
         console.log("Volunteer signing in time: " + (timer2-timer1) + "ms");
         alert("" + email + " is now logged in!");
-        //window.location.href = "/";
+        window.location.href = "/";
       })
       .catch(err => {
         alert(err.message);
