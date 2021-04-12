@@ -11,11 +11,14 @@ export default () => {
   const onSubmit = event => {
     event.preventDefault();
 
+    var timer1 = performance.now();
     VolunteerAuthenticate(email, password)
       .then(data => {
-        console.log('Logged in!', data);
+        var timer2 = performance.now();
+        console.log('Logged in!');
+        console.log("Volunteer signing in time: " + (timer2-timer1) + "ms");
         alert("" + email + " is now logged in!");
-        window.location.href = "/";
+        //window.location.href = "/";
       })
       .catch(err => {
         alert(err.message);

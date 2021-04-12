@@ -21,8 +21,8 @@ class VolunteerTable extends Component {
     if (status !== 204) alert('Volunteer Post NOT Deleted. \n Please try again later');
 
     let filteredVolunteerPosts = this.state.volunteerPosts.filter(volunteerPost => volunteerPost.id !== e.target.value);
-    console.log(e.target.value);
-    console.log(filteredVolunteerPosts);
+    // console.log(e.target.value);
+    // console.log(filteredVolunteerPosts);
     this.setState({ filteredVolunteerPosts });
     this.setState({ volunteerPosts: filteredVolunteerPosts });
   }
@@ -51,7 +51,7 @@ class VolunteerTable extends Component {
       this.setState({ volunteerPostsDefault });
       this.setState({ volunteerPosts: volunteerPostsDefault})
       
-      console.log("Get posts time: ", (timer2-timer1));
+      console.log("Get posts time: ", (timer2-timer1) + "ms");
     })
     
   }
@@ -77,7 +77,7 @@ class VolunteerTable extends Component {
     const user = VolunteerPool.getCurrentUser();
     const username = user.username;
     let volunteerPost = this.state.volunteerPosts.filter(volunteerPost => volunteerPost.id == e.target.value)[0];
-    console.log(volunteerPost);
+    // console.log(volunteerPost);
     if (volunteerPost.volunteerIds) {
       volunteerPost.volunteerIds = [...volunteerPost.volunteerIds, username];
     } else {

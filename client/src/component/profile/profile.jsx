@@ -15,7 +15,7 @@ class profile extends Component {
     componentDidMount() {
         axios.get(`${profileApiUrl}/1`)
             .then((res, err) => {
-                console.log(res);
+                // console.log(res);
                 this.setState({
                     name:res.data.Item.name,
                     email:res.data.Item.email,

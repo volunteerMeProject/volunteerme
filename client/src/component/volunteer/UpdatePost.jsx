@@ -52,7 +52,7 @@ class UpdatePost extends React.Component {
         const post = res.data.Item;
     
         this.setState({volunteerPost: post});
-        console.log(this.state.volunteerPost);
+        // console.log(this.state.volunteerPost);
       });
     
     

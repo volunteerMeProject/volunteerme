@@ -59,7 +59,7 @@ const Account = props => {
 
       user.authenticateUser(authDetails, {
         onSuccess: data => {
-          console.log('onSuccess:', data);
+          console.log('Success Authenticating Admin');
           resolve(data);
         },
 
@@ -82,7 +82,7 @@ const Account = props => {
 
       user.authenticateUser(authDetails, {
         onSuccess: data => {
-          console.log('onSuccess:', data);
+          console.log('Success Authenticating Volunteer');
           resolve(data);
         },
 
