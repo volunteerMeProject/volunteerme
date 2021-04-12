@@ -6,12 +6,12 @@ import VolunteerPool from '../volunteer_auth/UserPool';
 import AdminPool from '../admin_auth/UserPool';
 import {AccountContext} from '../Accounts';
 
-
 class VolunteerTable extends Component {
   state = {
     input: "",
     volunteerPosts: [],
     volunteerPostsDefault: [],
+    email: ""
   }
 
   async handleDelete(e) {
@@ -27,13 +27,33 @@ class VolunteerTable extends Component {
     this.setState({ volunteerPosts: filteredVolunteerPosts });
   }
 
-  async componentDidMount() {
-    const res = await getAllVolunteerPosts();
-    const volunteerPostsDefault = res.data.body;
-    volunteerPostsDefault.sort((a, b) => (a.Time > b.Time) ? 1 : -1);
+  static contextType = AccountContext;
+  setEmail() {
+    var user_session = this.context
+    user_session.getSession().then(session => {
+      this.setState({
+        email: session.idToken.payload.email
+      });
+    });
+  }
 
-    this.setState({ volunteerPostsDefault });
-    this.setState({ volunteerPosts: volunteerPostsDefault})
+  componentDidMount() {
+    
+    var timer1 = performance.now();
+    
+    getAllVolunteerPosts().then((res) => {
+      var timer2 = performance.now();
+
+      const volunteerPostsDefault = res.data.body;
+      volunteerPostsDefault.sort((a, b) => (a.Time > b.Time) ? 1 : -1);
+
+      this.setEmail();
+      this.setState({ volunteerPostsDefault });
+      this.setState({ volunteerPosts: volunteerPostsDefault})
+      
+      console.log("Get posts time: ", (timer2-timer1));
+    })
+    
   }
 
   async updateInput(input) {
@@ -114,21 +134,23 @@ class VolunteerTable extends Component {
       return false;
     }
   }
-  static contextType = AccountContext;
+  
   logoutUser(e) {
-    var test = this.context;
-    test.logout();
+    var user = this.context;
+    user.logout();
     alert('Logged out');
     window.location.reload();
     
   }
 
+
+
   render() {
     return (
       <React.Fragment>
-        {(this.checkVolunteerSignIn() || this.checkAdminSignIn()) && 
+        {/* {(this.checkVolunteerSignIn() || this.checkAdminSignIn()) && 
           <Link className="btn btn-primary btn-large m-3" to="../profile/profile">Profile</Link>
-        }
+        } */}
         {this.checkAdminSignIn() && 
           <Link className='btn btn-primary btn-large m-3' to='/createpost'>
             Create Volunteer Post
@@ -154,10 +176,14 @@ class VolunteerTable extends Component {
           input={this.state.input}
           onChange={this.updateInput.bind(this)}
         />
+        
         {(this.checkVolunteerSignIn() || this.checkAdminSignIn()) && 
+        <div style={{display:"inline-flex"}}>
           <button className="btn btn-primary btn-large m-3" onClick={this.logoutUser.bind(this)}>
             Logout
           </button>
+          <p className="m-3">Signed in as: <b>{this.state.email}</b></p>
+          </div>
         }
         {/* {Put logout button here based on if user is logged in} */}
         <table className="table table-striped table-dark">
