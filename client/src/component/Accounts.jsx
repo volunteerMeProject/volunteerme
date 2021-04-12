@@ -47,8 +47,6 @@ const Account = props => {
             resolve(session);
           }
         });
-      } else {
-        console.log('Error, no session to get!');
       }
     });
 
