@@ -10,12 +10,33 @@ const Account = props => {
     await new Promise((resolve, reject) => {
       const admin = AdminPool.getCurrentUser();
       const volunteer = VolunteerPool.getCurrentUser();
+
       if (admin) {
-        admin.getSession((err, session) => {
+        admin.getSession(async (err, session) => {
           if (err) {
             reject();
           } else {
-            resolve(session);
+            const attributes = await new Promise((resolve, reject) => {
+              admin.getUserAttributes((err, attributes) => {
+                if(err) {
+                  reject(err);
+                } else {
+                  const results = {};
+
+                  for(let attribute of attributes) {
+                    const { Name, Value } = attribute;
+                    results[Name] = Value;
+                  }
+
+                  resolve(results);
+                }
+              });
+            });
+
+            resolve({
+              ... session,
+              ... attributes
+            });
           }
         });
       } else if(volunteer) {
